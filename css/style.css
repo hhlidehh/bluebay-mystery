@@ -1,0 +1,320 @@
+
+
+.closeBtn{
+float:right;
+background:#7b2020;
+padding:6px 15px;
+font-size:14px;
+}
+
+.closeBtn:hover{
+background:#b03030;
+}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:linear-gradient(120deg,#06131d,#020507);
+color:#d9e8ef;
+font-family:"Microsoft YaHei",Consolas,sans-serif;
+height:100vh;
+overflow:hidden;
+}
+
+/* 顶栏 */
+#topbar{
+height:55px;
+background:#07151f;
+border-bottom:1px solid #1d627a;
+display:flex;
+align-items:center;
+padding-left:25px;
+color:#54dfff;
+font-size:22px;
+}
+
+/* 桌面 */
+#desktop{
+padding:30px;
+}
+
+/* 软件图标 */
+.icon{
+display:inline-flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+width:130px;
+height:110px;
+margin:15px;
+background:rgba(20,50,65,.8);
+border:1px solid #27748c;
+border-radius:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+.icon:hover{
+background:#164458;
+transform:translateY(-5px);
+}
+
+/* 窗口 */
+.window{
+display:none;
+position:absolute;
+top:80px;
+left:8%;
+width:84%;
+height:78%;
+background:#091219;
+border:1px solid #28758b;
+border-radius:12px;
+box-shadow:0 0 30px #000;
+padding:20px;
+overflow:auto;
+}
+
+.title{
+font-size:22px;
+color:#58dcff;
+border-bottom:1px solid #28505e;
+padding-bottom:10px;
+}
+
+/* 邮箱账户切换 */
+.accountBar{
+display:flex;
+gap:10px;
+margin:12px 0;
+padding:8px;
+background:#0a141c;
+border-radius:8px;
+}
+
+.accountTab{
+padding:10px 20px;
+background:#13232e;
+border-radius:6px;
+cursor:pointer;
+transition:.2s;
+font-size:14px;
+color:#8bb8cc;
+}
+
+.accountTab:hover{
+background:#1b384a;
+color:white;
+}
+
+.accountTab.active{
+background:#07566c;
+color:white;
+}
+
+.accountTab.loggedOut{color:#788;}
+
+/* 邮箱布局 */
+.mailLayout{display:flex;gap:0;height:calc(100% - 50px);}
+.mailSidebar{width:200px;min-width:200px;background:#0a141c;border-right:1px solid #1d3a48;padding:10px;overflow-y:auto;}
+.mailMain{flex:1;padding:10px 15px;overflow-y:auto;}
+
+.sidebarTitle{color:#58dcff;font-size:13px;padding:8px 0;border-bottom:1px solid #1d3a48;margin-bottom:8px;}
+.sidebarAcct{padding:10px 12px;margin:4px 0;border-radius:6px;cursor:pointer;transition:.2s;font-size:12px;color:#8bb8cc;}
+.sidebarAcct:hover{background:#13232e;color:white;}
+.sidebarAcct.active{background:#07566c;color:white;}
+.sidebarAcct .name{font-size:14px;font-weight:bold;}
+.sidebarAcct .mail{color:#5a8a9a;}
+.sidebarAdd{padding:10px 12px;margin:4px 0;border-radius:6px;cursor:pointer;font-size:13px;color:#36bddd;border:1px dashed #1d3a48;text-align:center;}
+.sidebarAdd:hover{background:#13232e;}
+
+.loginForm{max-width:400px;margin:40px auto;}
+
+/* 密码输入区 */
+.passBox{
+background:#0a141c;
+padding:15px;
+margin:12px 0;
+border-radius:8px;
+border-left:3px solid #f0a030;
+}
+
+.passBox input{
+margin-right:10px;
+min-width:200px;
+}
+
+.hint{
+color:#f0a030;
+font-size:14px;
+margin-top:8px;
+}
+
+/* 浏览器工具栏 */
+.browserToolbar{
+display:flex;
+gap:6px;
+padding:8px 10px;
+background:#0f1a22;
+border:1px solid #1d3a48;
+border-radius:8px 8px 0 0;
+align-items:center;
+}
+
+.navBtn{
+width:34px;
+height:30px;
+background:#13232e;
+border:1px solid #1d3a48;
+border-radius:4px;
+color:#7aacc2;
+font-size:16px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:0;
+}
+
+.navBtn:hover{background:#1e3a4d;color:white;}
+.navBtn:disabled{opacity:.3;cursor:default;}
+
+.addrBarWrap{
+flex:1;
+display:flex;
+align-items:center;
+background:#071016;
+border:1px solid #1d3a48;
+border-radius:20px;
+padding:0 12px;
+}
+
+.addrBarWrap .addrIcon{
+color:#36bddd;
+margin-right:8px;
+font-size:13px;
+}
+
+.addrBarWrap input{
+flex:1;
+background:transparent;
+border:none;
+color:#b8dae8;
+padding:8px 0;
+font-size:14px;
+outline:none;
+}
+
+.addrBarWrap input:focus{
+color:white;
+}
+
+.browserContent{
+background:#091219;
+border:1px solid #1d3a48;
+border-top:none;
+border-radius:0 0 8px 8px;
+padding:15px;
+min-height:200px;
+}
+
+/* 搜索 */
+.searchbox{
+display:flex;
+gap:10px;
+}
+
+input{
+flex:1;
+background:#020507;
+border:1px solid #386070;
+color:white;
+padding:12px;
+font-size:16px;
+}
+
+button{
+background:#07566c;
+border:none;
+color:white;
+padding:10px 20px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#0b7895;
+}
+
+/* 网站结果 */
+.card{
+background:#111d25;
+border-left:3px solid #36bddd;
+padding:15px;
+margin:12px 0;
+cursor:pointer;
+}
+
+.card:hover{
+background:#182c38;
+}
+
+/* 线索 */
+.clue{
+background:#14251d;
+border-left:3px solid #55ff88;
+padding:10px;
+margin:10px 0;
+}
+
+/* 邮箱邮件列表 */
+.email{
+background:#111a20;
+padding:15px;
+margin:10px 0;
+border:1px solid #344c58;
+cursor:pointer;
+}
+
+.email:hover{
+background:#172c37;
+}
+
+.email .emailFrom{
+color:#58a0b8;
+font-size:13px;
+margin-top:4px;
+}
+
+.timeline{
+padding-left:15px;
+line-height:2;
+}
+
+.tag{
+color:#55ff88;
+}
+
+/* 结局解锁卡片 */
+.endingSlot{
+background:#0a141c;
+padding:15px;
+margin:12px 0;
+border-radius:8px;
+border-left:3px solid #07566c;
+}
+
+.endingHint{
+color:#f0a030;
+font-size:14px;
+margin-bottom:8px;
+font-weight:bold;
+}
+
+/* 未读红点 */
+.unreadDot{display:none;position:absolute;top:6px;right:10px;width:10px;height:10px;background:#d94a4a;border-radius:50%;}
+.icon{position:relative;}
+.mailDot{display:inline-block;width:8px;height:8px;background:#d94a4a;border-radius:50%;margin-right:6px;vertical-align:middle;}

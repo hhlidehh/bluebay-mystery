@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>水族馆失踪案</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="topbar">
+🌊 NEXUS 网络调查终端
+<span id="saveDot" style="font-size:12px;color:#3a5a4a;margin-left:15px;opacity:0;transition:opacity .3s;">💾 已自动保存</span>
+</div>
+
+<div id="desktop">
+<div class="icon" onclick="openWindow('mail')">📧<br>委托邮箱<span class="unreadDot" id="unreadDot"></span></div>
+<div class="icon" onclick="openWindow('browser')">🌐<br>NEXUS搜索</div>
+<div class="icon" onclick="openWindow('case')">📁<br>案件档案</div>
+<div class="icon" onclick="openWindow('report')">📝<br>调查报告</div>
+</div>
+
+<!-- 邮箱窗口 -->
+<div class="window" id="mail">
+<button class="closeBtn" onclick="closeWindow('mail')">关闭窗口 ✖</button>
+<div class="title" id="mailTitle">📧 NEXUS MAIL</div>
+<div class="mailLayout">
+<div class="mailSidebar" id="mailSidebar"></div>
+<div class="mailMain" id="mailMain"></div>
+</div>
+</div>
+
+<!-- 浏览器窗口 -->
+<div class="window" id="browser">
+<button class="closeBtn" onclick="closeWindow('browser')">关闭窗口 ✖</button>
+<div class="browserToolbar">
+  <button class="navBtn" id="btnBack" onclick="browserBack()" disabled title="后退">◀</button>
+  <button class="navBtn" id="btnFwd" onclick="browserForward()" disabled title="前进">▶</button>
+  <button class="navBtn" onclick="browserRefresh()" title="刷新">🔄</button>
+  <div class="addrBarWrap">
+    <span class="addrIcon" id="addrIcon">🔍</span>
+    <input id="addrInput" placeholder="输入网址或搜索关键词..." onkeydown="if(event.key==='Enter')browserGo()">
+  </div>
+  <button class="navBtn" onclick="browserGo()" title="前往">→</button>
+</div>
+<div class="browserContent" id="browserBody">请输入关键词开始调查。</div>
+</div>
+
+<!-- 档案窗口 -->
+<div class="window" id="case">
+<button class="closeBtn" onclick="closeWindow('case')">关闭窗口 ✖</button>
+<div class="title">📁 调查档案</div>
+<h3>已发现证据</h3>
+<div id="clueBox">暂无线索</div>
+<h3>事件时间线</h3>
+<div class="timeline" id="timelineBox">暂无记录</div>
+</div>
+
+<!-- 报告窗口 -->
+<div class="window" id="report">
+<button class="closeBtn" onclick="closeWindow('report')">关闭窗口 ✖</button>
+<div class="title">📝 最终调查报告</div>
+<p>随着调查深入，不同的结案方向将逐渐浮现。收集更多证据以解锁新的结案选择。</p>
+<div id="endingBtns">
+<div class="endingSlot" id="endSlot1" style="display:none;">
+<div class="endingHint">📋 初步判断已形成</div>
+<p style="color:#889;font-size:13px;">你已掌握李清禾失踪的基本线索，可以就此提交一份常规失踪报告结案。</p>
+<button onclick="makeReport(1)">提交：普通失踪案件</button>
+</div>
+<div class="endingSlot" id="endSlot2" style="display:none;">
+<div class="endingHint">🔬 发现了背后的组织</div>
+<p style="color:#889;font-size:13px;">造船集团、秘密扩建、9号展缸——你揭开了蓝湾水族馆被掩盖的真相。但陈志远似乎知道更多。</p>
+<button onclick="makeReport(2)">提交：非法深海实验设施</button>
+</div>
+<div class="endingSlot" id="endSlot3" style="display:none;">
+<div class="endingHint">🌊 深渊回响</div>
+<p style="color:#889;font-size:13px;">你收集了全部证据——李清禾的勘察、陈志远的警告、DSLOP的真相。水族馆只是一个容器。</p>
+<button onclick="makeReport(3)">提交：水族馆异常事件</button>
+</div>
+</div>
+<div id="endingMsg" style="color:#788;padding:20px;text-align:center;">
+🔒 尚未满足任何结案条件<br><small>继续调查以解锁结案选项</small>
+</div>
+<div id="result"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/browser.js"></script>
+<script src="js/endings.js"></script>
+<script src="js/save.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

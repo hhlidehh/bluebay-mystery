@@ -51,7 +51,7 @@ let accounts={
 
 <p>
 技术部门分析发现，李清禾习惯使用<b>她最熟悉的事物组合作为密码</b>。
-初步判断密码由<b>某个地点的英文名 + 重要年份</b>构成。具体细节请查看下方"技术协助"邮件。
+初步判断密码由<b>某个地点的英文名中的重要词汇 + 重要年份</b>构成。具体细节请查看下方"技术协助"邮件。
 </p>
 
 <p>
@@ -77,7 +77,7 @@ let accounts={
 
 <div class="clue">
 <span class="tag">分析结果：</span>
-李清禾在多个平台上使用的密码模式为：<b>一个对她有意义的地点的英文名 + 该地点的重要年份</b>
+李清禾在多个平台上使用的密码模式为：<b>一个对她有意义的地点的英文名的其中一个词 + 该地点的重要年份</b>
 </div>
 
 <p>
@@ -89,7 +89,7 @@ let accounts={
 </p>
 
 <ul>
-<li>找到水族馆的<b>官方英文名称</b></li>
+<li>找到水族馆的<b>官方英文名称</b>,提取<b>关键词</b></li>
 <li>找到该馆的<b>成立/建馆年份</b></li>
 <li>将二者组合尝试</li>
 </ul>
@@ -622,6 +622,7 @@ let websites={
   "蓝湾水族馆":{
     url:"https://www.ray-bay-aquarium.com",
     title:"蓝湾海洋馆官方网站",
+    keywords:["蓝湾水族馆","蓝湾海洋馆","Ray Bay Aquarium","ray","鳐鱼"],
     content:`
 <h2>🐠蓝湾海洋馆</h2>
 <h3>Ray Bay Aquarium</h3>
@@ -639,7 +640,7 @@ let websites={
 <h3>场馆信息</h3>
 <p>蓝湾海洋馆曾拥有蓝湾市最大的深海生物展区，包含8个公开展缸。</p>
 <p>据前员工回忆，海洋馆地下还有装修中的区域,但<b>最后未对公众开放</b>。</p>
-<p>镇馆之宝为一条罕见的<b>巨型鳐鱼</b>，海洋馆的英文名即来源于此。</p>
+<p>镇馆之宝为一条罕见的<b style="font-size:30px">巨型鳐鱼</b>，海洋馆的英文名即来源于此。</p>
 
 <hr>
 
@@ -663,6 +664,28 @@ let websites={
 </p>
 
 <button onclick="addClue('官方记录显示水族馆2012年关闭','2012年 蓝湾水族馆停止运营')">
+📌 保存网页证据
+</button>
+`
+  },
+
+  "鳐鱼百科":{
+    url:"https://encyclopedia.ray-bay-aquarium.com/stingray",
+    title:"鳐鱼百科",
+    keywords:["鳐鱼","ray","Ray","蓝湾水族馆","蓝湾海洋馆"],
+    content:`
+<h2>📘 鳐鱼百科</h2>
+
+<p><b>中文名：</b>鳐鱼</p>
+<p><b>英文名：</b><b>ray</b></p>
+
+<p>鳐鱼是一种扁平的海洋生物，常见于沙地底部。它们的身体呈菱形，尾部细长，有的种类尾上有毒刺。</p>
+
+<p>蓝湾水族馆曾以一条罕见的巨型鳐鱼为镇馆之宝，馆名“Ray Bay Aquarium”即取自此物。</p>
+
+<p>习性：鳐鱼喜欢在浅海或珊瑚礁附近活动，白天藏身沙底，夜间浮出寻找食物。</p>
+
+<button onclick="addClue('鳐鱼是蓝湾水族馆的镇馆之宝 英文名为 ray','鳐鱼百科 提供水族馆密码线索')">
 📌 保存网页证据
 </button>
 `
@@ -985,15 +1008,22 @@ function browserGo(){
 function showSearchResults(key){
   let body=document.getElementById("browserBody");
   let found=false;
+  let normalizedKey = key.toLowerCase();
 
   let html=`<h3>🔍 NEXUS 搜索：<span style="color:#36bddd;">${key}</span></h3>`;
   for(let name in websites){
-    if(name.includes(key) || key.includes(name)){
+    let site = websites[name];
+    let normalizedName = name.toLowerCase();
+    let keywordMatch = site.keywords && site.keywords.some(w=>{
+      let normalizedW = w.toLowerCase();
+      return normalizedW.includes(normalizedKey) || normalizedKey.includes(normalizedW);
+    });
+    if(normalizedName.includes(normalizedKey) || normalizedKey.includes(normalizedName) || keywordMatch){
       found=true;
       html+=`
         <div class="card" onclick="navigatePage('${name}','web')">
-          <b>${websites[name].title}</b><br>
-          <span style="color:#5a8a9a;font-size:13px;">${websites[name].url}</span>
+          <b>${site.title}</b><br>
+          <span style="color:#5a8a9a;font-size:13px;">${site.url}</span>
         </div>`;
     }
   }

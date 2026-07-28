@@ -1109,7 +1109,8 @@ function updateNavUI(mode,val,url){
   let btnFwd=document.getElementById("btnFwd");
 
   if(mode==="search"){
-    addr.value="🔍 "+val;
+    let searchValue = String(val || "").trim();
+    addr.value = searchValue ? searchValue : "";
     icon.innerHTML="🔍";
   } else {
     addr.value=url||val;

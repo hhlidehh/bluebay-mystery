@@ -3,8 +3,9 @@
 // 浏览器导航系统
 // ==========================================
 
-let browserHistory=[];
-let browserPos=-1;
+let browserTabs=[];
+let activeBrowserTab=0;
+let browserTabCounter=0;
 
 // 密码记忆：输入正确一次后不再重复要求
 let archiveUnlocked=false;
@@ -380,5 +381,5 @@ function searchArchive(){
 </div>`; return;
   }
 
-  result.innerHTML="<p style='color:#788;'>未找到与「"+key+"」匹配的档案记录。</p>";
+  result.innerHTML="<p style='color:#788;'>该关键词暂无相关结果。</p>";
 }

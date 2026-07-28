@@ -32,6 +32,7 @@
 <!-- 浏览器窗口 -->
 <div class="window" id="browser">
 <button class="closeBtn" onclick="closeWindow('browser')">关闭窗口 ✖</button>
+<div class="tabBar" id="tabBar"></div>
 <div class="browserToolbar">
   <button class="navBtn" id="btnBack" onclick="browserBack()" disabled title="后退">◀</button>
   <button class="navBtn" id="btnFwd" onclick="browserForward()" disabled title="前进">▶</button>
@@ -49,6 +50,9 @@
 <div class="window" id="case">
 <button class="closeBtn" onclick="closeWindow('case')">关闭窗口 ✖</button>
 <div class="title">📁 调查档案</div>
+<div style="margin:8px 0 12px 0;">
+  <button onclick="resetGameProgress()" style="padding:6px 10px;border:1px solid #5a8a9a;background:#16313c;color:#f4f8fb;border-radius:6px;cursor:pointer;">🗑️ 重置档案</button>
+</div>
 <h3>已发现证据</h3>
 <div id="clueBox">暂无线索</div>
 <h3>事件时间线</h3>

@@ -7,6 +7,7 @@ function openWindow(id){
   document.getElementById(id).style.display="block";
   if(id==="mail") renderMail();
   if(id==="report") checkEndings();
+  if(id==="browser") initBrowser();
 }
 
 function closeWindow(id){
@@ -34,14 +35,35 @@ function addClue(name,time){
   saveGame();
 }
 
-// 页面渲染后自动隐藏已保存证据的按钮
+// 页面渲染后先隐藏线索按钮，只有玩家点击页面内容后才显示
 function hideSavedButtons(){
-  let btns=document.querySelectorAll("button");
+  let body=document.getElementById("browserBody");
+  if(!body) return;
+
+  let btns=body.querySelectorAll("button");
   btns.forEach(btn=>{
     let oc=btn.getAttribute("onclick")||"";
     if(oc.includes("addClue('")){
       let m=oc.match(/addClue\('([^']+)'/);
-      if(m && clues.includes(m[1])) btn.style.display="none";
+      if(m && clues.includes(m[1])){
+        btn.style.display="none";
+      } else {
+        btn.style.display="none";
+      }
     }
   });
+
+  const revealClueButtons=function(){
+    btns.forEach(btn=>{
+      let oc=btn.getAttribute("onclick")||"";
+      if(oc.includes("addClue('")){
+        let m=oc.match(/addClue\('([^']+)'/);
+        if(!(m && clues.includes(m[1]))) btn.style.display="inline-block";
+      }
+    });
+    body.removeEventListener("click", revealClueButtons);
+  };
+
+  body.removeEventListener("click", revealClueButtons);
+  body.addEventListener("click", revealClueButtons, {once:true});
 }

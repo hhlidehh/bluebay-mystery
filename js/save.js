@@ -7,7 +7,8 @@ function saveGame(){
     clues,timeline,
     loggedInAccounts,currentAccount,
     archiveUnlocked,zonesUnlocked,restrictedUnlocked,
-    accts:{},_v:2
+    browserTabs,activeBrowserTab,
+    accts:{},_v:3
   };
   for(let k in accounts) data.accts[k]={loggedIn:accounts[k].loggedIn};
   localStorage.setItem('aquarium_save',JSON.stringify(data));
@@ -27,6 +28,14 @@ function loadGame(){
     archiveUnlocked=d.archiveUnlocked||false;
     zonesUnlocked=d.zonesUnlocked||false;
     restrictedUnlocked=d.restrictedUnlocked||false;
+    browserTabs = Array.isArray(d.browserTabs)?d.browserTabs:[];
+    activeBrowserTab = typeof d.activeBrowserTab === 'number'? d.activeBrowserTab : 0;
+    if(browserTabs.length===0){
+      browserTabs=[];
+      activeBrowserTab=0;
+    } else if(activeBrowserTab<0||activeBrowserTab>=browserTabs.length){
+      activeBrowserTab=0;
+    }
     if(d.accts) for(let k in d.accts) if(accounts[k]) accounts[k].loggedIn=d.accts[k].loggedIn;
     // 重建线索UI
     document.getElementById('clueBox').innerHTML=clues.map(n=>`<div class="clue"><span class="tag">证据：</span>${n}</div>`).join('');
@@ -34,4 +43,15 @@ function loadGame(){
     checkEndings();
     return true;
   }catch(e){return false;}
+}
+
+function resetGameProgress(){
+  let firstConfirm=window.confirm('⚠️ 确定要重置档案吗？这会清除当前所有调查进度，并恢复为初始状态。');
+  if(!firstConfirm) return;
+
+  let secondConfirm=window.confirm('⚠️ 这是最后一次确认。重置后当前进度将无法恢复，是否继续？');
+  if(!secondConfirm) return;
+
+  localStorage.removeItem('aquarium_save');
+  window.location.reload();
 }

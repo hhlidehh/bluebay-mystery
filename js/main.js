@@ -4,6 +4,7 @@
 
 window.onload=function(){
   loadGame();
+  initBrowser();
   renderMail();
 };
 

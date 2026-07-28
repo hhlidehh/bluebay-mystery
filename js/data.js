@@ -619,6 +619,18 @@ function openMail(i){
 
 let websites={
 
+  "NEXUS 首页":{
+    url:"https://nexus-search.local",
+    title:"NEXUS 搜索首页",
+    keywords:["NEXUS","首页","搜索","网络调查","调查终端"],
+    content:`
+<h2>🌐 NEXUS 搜索终端</h2>
+<p>欢迎使用 NEXUS 过滤搜索终端。你可以在地址栏输入关键词查找案件相关网站、档案与人物。</p>
+
+<p>如果搜索无结果，系统会告诉你该关键词暂无相关结果。</p>
+`
+  },
+
   "蓝湾水族馆":{
     url:"https://www.ray-bay-aquarium.com",
     title:"蓝湾海洋馆官方网站",
@@ -684,10 +696,6 @@ let websites={
 <p>蓝湾水族馆曾以一条罕见的巨型鳐鱼为镇馆之宝，馆名“Ray Bay Aquarium”即取自此物。</p>
 
 <p>习性：鳐鱼喜欢在浅海或珊瑚礁附近活动，白天藏身沙底，夜间浮出寻找食物。</p>
-
-<button onclick="addClue('鳐鱼是蓝湾水族馆的镇馆之宝 英文名为 ray','鳐鱼百科 提供水族馆密码线索')">
-📌 保存网页证据
-</button>
 `
   },
 
@@ -981,6 +989,81 @@ let websites={
 
 // ---- 浏览器导航核心 ----
 
+function getCurrentTab(){
+  return browserTabs[activeBrowserTab];
+}
+
+function renderTabBar(){
+  let bar=document.getElementById("tabBar");
+  if(!bar) return;
+  bar.innerHTML = browserTabs.map((tab,index)=>`
+    <div class="tabItem ${index===activeBrowserTab?'active':''}" onclick="switchBrowserTab(${index})">
+      <span>${tab.title}</span>
+      <button class="tabCloseBtn" onclick="closeBrowserTab(event,${index})">×</button>
+    </div>`).join('') +
+    `<button class="tabAddBtn" onclick="addBrowserTab()">+ 新标签</button>`;
+}
+
+function addBrowserTab(){
+  browserTabs.push({
+    id:'tab-'+(++browserTabCounter),
+    title:'新标签',
+    history:[],
+    historyPos:-1
+  });
+  activeBrowserTab = browserTabs.length-1;
+  renderTabBar();
+  navigatePage("NEXUS 首页","web");
+}
+
+function switchBrowserTab(index){
+  if(index<0||index>=browserTabs.length) return;
+  activeBrowserTab=index;
+  renderTabBar();
+  let tab=getCurrentTab();
+  if(tab.historyPos<0){
+    navigatePage("NEXUS 首页","web");
+  } else {
+    renderBrowserState(tab.history[tab.historyPos], false);
+  }
+}
+
+function closeBrowserTab(evt,index){
+  evt.stopPropagation();
+  if(browserTabs.length<=1) return;
+  browserTabs.splice(index,1);
+  if(activeBrowserTab>=browserTabs.length) activeBrowserTab=browserTabs.length-1;
+  renderTabBar();
+  let tab=getCurrentTab();
+  if(tab.historyPos<0){
+    navigatePage("NEXUS 首页","web");
+  } else {
+    renderBrowserState(tab.history[tab.historyPos], false);
+  }
+}
+
+function renderBrowserPrompt(){
+  let body=document.getElementById("browserBody");
+  body.innerHTML=`
+    <h3>🌐 NEXUS 网络调查终端</h3>
+    <p>请输入关键词，搜索案件相关网页、档案或人物信息。</p>
+    <div class="browserNoResults">
+      你可以尝试搜索其他关键词。
+    </div>`;
+  document.getElementById("addrIcon").innerHTML="🔍";
+  document.getElementById("addrInput").value="";
+  updateNavUI("search","");
+}
+
+function renderBrowserState(state, recordHistory=true){
+  if(!state) return;
+  if(state.type==="search"){
+    showSearchResults(state.key, recordHistory);
+  } else {
+    navigatePage(state.id, state.source, recordHistory);
+  }
+}
+
 function browserGo(){
   let input=document.getElementById("addrInput").value.trim();
   if(!input) return;
@@ -1005,7 +1088,7 @@ function browserGo(){
   showSearchResults(input);
 }
 
-function showSearchResults(key){
+function showSearchResults(key, shouldPush=true){
   let body=document.getElementById("browserBody");
   let found=false;
   let normalizedKey = key.toLowerCase();
@@ -1028,19 +1111,27 @@ function showSearchResults(key){
     }
   }
   if(!found){
-    html+=`<p style="color:#788;padding:20px;">没有找到与"${key}"相关的网页。<br><br>尝试搜索：<b>蓝湾水族馆</b>、<b>李清禾</b>、<b>蓝湾造船</b>、<b>蓝湾论坛</b></p>`;
+    html+=`
+      <div class="browserNoResults">
+        <p>该关键词暂无相关结果。</p>
+        <p>你可以尝试搜索其他关键词。</p>
+      </div>`;
   }
 
   body.innerHTML=html;
-  pushHistory({type:"search",key:key});
+  let tab = getCurrentTab();
+  if(tab){
+    tab.title = '搜索：' + key;
+    if(shouldPush) pushHistory({type:"search",key:key});
+  }
   updateNavUI("search",key);
 }
 
-function navigatePage(id,source){
+function navigatePage(id,source,shouldPush=true){
   // 已解锁的登录页自动跳过
-  if(id==="9号展缸登录" && archiveUnlocked){ navigatePage("内部档案门户","hidden"); return; }
-  if(id==="分区详情登录" && zonesUnlocked){ navigatePage("分区详情","hidden"); return; }
-  if(id==="未开放档案登录" && restrictedUnlocked){ navigatePage("未开放档案","hidden"); return; }
+  if(id==="9号展缸登录" && archiveUnlocked){ navigatePage("内部档案门户","hidden",shouldPush); return; }
+  if(id==="分区详情登录" && zonesUnlocked){ navigatePage("分区详情","hidden",shouldPush); return; }
+  if(id==="未开放档案登录" && restrictedUnlocked){ navigatePage("未开放档案","hidden",shouldPush); return; }
 
   let body=document.getElementById("browserBody");
   let page;
@@ -1057,49 +1148,42 @@ function navigatePage(id,source){
     hideSavedButtons();
   }
 
-  pushHistory({type:"page",id:id,source:source,url:url});
+  let tab=getCurrentTab();
+  if(tab){
+    tab.title = page && page.title ? page.title : id;
+    if(shouldPush) pushHistory({type:"page",id:id,source:source,url:url});
+  }
   updateNavUI("page",id,url);
 }
 
 function browserBack(){
-  if(browserPos<=0) return;
-  browserPos--;
-  restoreHistory(browserHistory[browserPos]);
+  let tab=getCurrentTab();
+  if(!tab || tab.historyPos<=0) return;
+  tab.historyPos--;
+  renderBrowserState(tab.history[tab.historyPos], false);
 }
 
 function browserForward(){
-  if(browserPos>=browserHistory.length-1) return;
-  browserPos++;
-  restoreHistory(browserHistory[browserPos+1]);
+  let tab=getCurrentTab();
+  if(!tab || tab.historyPos>=tab.history.length-1) return;
+  tab.historyPos++;
+  renderBrowserState(tab.history[tab.historyPos], false);
 }
 
 function browserRefresh(){
-  if(browserPos>=0){
-    let h=browserHistory[browserPos];
-    restoreHistory(h);
+  let tab=getCurrentTab();
+  if(tab && tab.historyPos>=0){
+    renderBrowserState(tab.history[tab.historyPos], false);
   }
 }
 
 function pushHistory(state){
-  // 清除当前位置之后的历史
-  browserHistory=browserHistory.slice(0,browserPos+1);
-  browserHistory.push(state);
-  browserPos=browserHistory.length-1;
-}
-
-function restoreHistory(state){
-  if(state.type==="search"){
-    showSearchResults(state.key);
-    // 修正：不重复push
-    browserPos=browserHistory.indexOf(state);
-  } else {
-    // 直接渲染
-    let body=document.getElementById("browserBody");
-    let page=state.source==="hidden"?hiddenPages[state.id]:websites[state.id];
-    body.innerHTML=page.content;
-    updateNavUI("page",state.id,state.url);
-    browserPos=browserHistory.indexOf(state);
-  }
+  let tab=getCurrentTab();
+  if(!tab) return;
+  tab.history = tab.history.slice(0, tab.historyPos+1);
+  tab.history.push(state);
+  tab.historyPos = tab.history.length-1;
+  renderTabBar();
 }
 
 function updateNavUI(mode,val,url){
@@ -1107,16 +1191,38 @@ function updateNavUI(mode,val,url){
   let icon=document.getElementById("addrIcon");
   let btnBack=document.getElementById("btnBack");
   let btnFwd=document.getElementById("btnFwd");
+  let tab=getCurrentTab();
 
   if(mode==="search"){
-    let searchValue = String(val || "").trim();
-    addr.value = searchValue ? searchValue : "";
+    addr.value = String(val||"").trim();
     icon.innerHTML="🔍";
   } else {
-    addr.value=url||val;
+    addr.value = url || val;
     icon.innerHTML="🔗";
   }
 
-  btnBack.disabled=browserPos<=0;
-  btnFwd.disabled=browserPos>=browserHistory.length-1;
+  btnBack.disabled = !tab || tab.historyPos<=0;
+  btnFwd.disabled = !tab || tab.historyPos>=tab.history.length-1;
+}
+
+function initBrowser(){
+  if(!browserTabs.length){
+    browserTabs=[];
+    activeBrowserTab=0;
+    browserTabCounter=0;
+    browserTabs.push({
+      id:'tab-'+(++browserTabCounter),
+      title:'新标签',
+      history:[],
+      historyPos:-1
+    });
+  }
+  if(activeBrowserTab<0 || activeBrowserTab>=browserTabs.length) activeBrowserTab=0;
+  renderTabBar();
+  let tab=getCurrentTab();
+  if(!tab || tab.historyPos<0){
+    renderBrowserPrompt();
+  } else {
+    renderBrowserState(tab.history[tab.historyPos], false);
+  }
 }

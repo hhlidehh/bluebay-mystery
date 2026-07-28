@@ -154,6 +154,77 @@ margin-top:8px;
 }
 
 /* 浏览器工具栏 */
+.tabBar{
+display:flex;
+align-items:center;
+gap:6px;
+padding:8px 10px;
+background:#091b26;
+border:1px solid #1d3a48;
+border-bottom:none;
+border-radius:8px 8px 0 0;
+}
+
+.tabItem{
+display:flex;
+align-items:center;
+gap:6px;
+background:#0f1a22;
+border:1px solid #1f4f6a;
+border-radius:6px;
+padding:6px 10px;
+cursor:pointer;
+color:#b8d2e0;
+font-size:13px;
+}
+
+.tabItem.active{
+background:#15456a;
+color:white;
+border-color:#36bddd;
+}
+
+.tabCloseBtn{
+background:transparent;
+border:none;
+color:#7b9db3;
+cursor:pointer;
+font-size:12px;
+padding:0;
+}
+
+.tabCloseBtn:hover{
+color:#f07a7a;
+}
+
+.tabAddBtn{
+margin-left:auto;
+background:#0f2c41;
+border:1px solid #1e4f6b;
+border-radius:6px;
+color:#8bb8cc;
+padding:6px 10px;
+cursor:pointer;
+}
+
+.tabAddBtn:hover{
+background:#1a4a68;
+color:white;
+}
+
+.browserNoResults{
+  background:#08151f;
+  border:1px solid #284d67;
+  border-radius:10px;
+  padding:18px;
+  margin-top:12px;
+  color:#a1b8c7;
+}
+
+.browserNoResults b{
+  color:#dbeeff;
+}
+
 .browserToolbar{
 display:flex;
 gap:6px;

@@ -516,8 +516,22 @@ function updateUnreadDot(){
   dot.style.display=hasUnread?"block":"none";
 }
 
+function getUnreadCount(accountKey){
+  let a=accounts[accountKey];
+  if(!a) return 0;
+  let read=a._read?a._read.size:0;
+  return Math.max(0, a.mails.length - read);
+}
+
 // 渲染邮箱界面
 function renderMail(){
+  // 保存当前输入值防止失焦丢失
+  let savedEmail="",savedPass="";
+  let emailEl=document.getElementById("loginEmail");
+  let passEl=document.getElementById("loginPass");
+  if(emailEl) savedEmail=emailEl.value;
+  if(passEl) savedPass=passEl.value;
+
   // 侧边栏
   let sb=document.getElementById("mailSidebar");
   sb.innerHTML=`<div class="sidebarTitle">📧 邮箱账户</div>`;
@@ -525,8 +539,10 @@ function renderMail(){
     let a=accounts[k];
     let cls="sidebarAcct";
     if(k===currentAccount && !showingLogin) cls+=" active";
+    let unread=getUnreadCount(k);
+    let unreadHtml = unread>0 ? `<span style="color:#ff6b6b;font-size:12px;margin-left:6px;">●</span>` : '';
     sb.innerHTML+=`<div class="${cls}" onclick="switchToAccount('${k}')">
-      <div class="name">${a.name}</div>
+      <div class="name">${a.name}${unreadHtml}</div>
       <div class="mail">${a.mail}</div>
     </div>`;
   });
@@ -550,6 +566,9 @@ function renderMail(){
         <button onclick="doMailLogin()">🔓 登录</button>
         <div class="hint" id="loginMsg"></div>
       </div>`;
+    // 恢复输入值
+    if(savedEmail) document.getElementById("loginEmail").value=savedEmail;
+    if(savedPass) document.getElementById("loginPass").value=savedPass;
     return;
   }
 
@@ -609,8 +628,10 @@ function openMail(i){
   let box=accounts[currentAccount];
   if(!box._read) box._read=new Set();
   box._read.add(i);
+  saveGame();
   document.getElementById("mailContent").innerHTML=box.mails[i].body;
-  hideSavedButtons();
+  updateUnreadDot();
+  setTimeout(()=>hideSavedButtons(document.getElementById("mailContent"), false), 50);
 }
 
 // ==========================================
@@ -1030,13 +1051,20 @@ function switchBrowserTab(index){
 
 function closeBrowserTab(evt,index){
   evt.stopPropagation();
-  if(browserTabs.length<=1) return;
+  if(browserTabs.length<=1){
+    // 最后一个标签页：重置为默认新标签
+    browserTabs=[{id:'tab-'+(++browserTabCounter),title:'新标签',history:[],historyPos:-1}];
+    activeBrowserTab=0;
+    renderTabBar();
+    renderBrowserPrompt();
+    return;
+  }
   browserTabs.splice(index,1);
   if(activeBrowserTab>=browserTabs.length) activeBrowserTab=browserTabs.length-1;
   renderTabBar();
   let tab=getCurrentTab();
   if(tab.historyPos<0){
-    navigatePage("NEXUS 首页","web");
+    renderBrowserPrompt();
   } else {
     renderBrowserState(tab.history[tab.historyPos], false);
   }
@@ -1059,6 +1087,13 @@ function renderBrowserState(state, recordHistory=true){
   if(!state) return;
   if(state.type==="search"){
     showSearchResults(state.key, recordHistory);
+  } else if(state.type==="deep"){
+    let body=document.getElementById("browserBody");
+    let dp=deepPages[state.id];
+    if(!dp){ renderBrowserPrompt(); return; }
+    body.innerHTML=dp.content;
+    hideSavedButtons();
+    maybePlayWave(state.id,"hidden");
   } else {
     navigatePage(state.id, state.source, recordHistory);
   }
@@ -1141,12 +1176,16 @@ function navigatePage(id,source,shouldPush=true){
     url=page.url;
     body.innerHTML=page.content;
     hideSavedButtons();
+    maybePlayWave(id,source);
   } else {
     page=websites[id];
     url=page.url;
     body.innerHTML=page.content;
     hideSavedButtons();
+    maybePlayWave(id,source);
   }
+
+  injectDeepLink(id);
 
   let tab=getCurrentTab();
   if(tab){
@@ -1154,6 +1193,28 @@ function navigatePage(id,source,shouldPush=true){
     if(shouldPush) pushHistory({type:"page",id:id,source:source,url:url});
   }
   updateNavUI("page",id,url);
+  // 非海浪页面停止音效（深海页面继续播放）
+  if(!wavePages.includes(id)&&!(source==="hidden"&&id.includes("9号展缸"))&&!id.includes("_深层")) stopWave();
+}
+
+// 表网页已解锁里网页时，注入深层链接
+function injectDeepLink(id){
+  let deepKey=id+"_深层";
+  if(!deepUnlocked||!deepUnlocked[deepKey]) return;
+  let deepPage=deepPages[deepKey];
+  if(!deepPage) return;
+  let body=document.getElementById("browserBody");
+  let link=document.createElement("div");
+  link.className="card";
+  link.style.cssText="border-left:3px solid #55ff88;cursor:pointer;margin-top:15px;";
+  link.innerHTML=`<b>📡 声呐已解锁：${deepPage.title}</b><br><span style="color:#55ff88;">点击查看深层档案 →</span>`;
+  link.onclick=function(){
+    body.innerHTML=deepPage.content;
+    hideSavedButtons();
+    playWave();
+    pushHistory({type:"deep",id:deepKey});
+  };
+  body.appendChild(link);
 }
 
 function browserBack(){

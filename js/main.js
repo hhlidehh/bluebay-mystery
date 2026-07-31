@@ -1,19 +1,16 @@
-// ==========================================
-// 初始化
-// ==========================================
-
-window.onload=function(){
+window.onload = function(){
   loadGame();
-  initBrowser();
+  if(typeof initBrowser==='function') initBrowser();
   renderMail();
-  initWindowInteractions();
-  updateDock();
+  _WM.updateDock();
 };
 
-document.addEventListener("keydown",function(e){
-  if(e.key==="Escape"){
-    let w=document.querySelector(".window[style*='display: block']");
-    if(w) w.style.display="none";
+// 在 wm.js 加载后立即注册所有窗口
+initAllWindows();
+
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){
+    var a = _WM.active();
+    if(a) a.close();
   }
 });
-

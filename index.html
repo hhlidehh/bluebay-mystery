@@ -17,6 +17,7 @@
 <div class="icon" onclick="openWindow('browser')">🌐<br>NEXUS搜索</div>
 <div class="icon" onclick="openWindow('case')">📁<br>案件档案</div>
 <div class="icon" onclick="openWindow('report')">📝<br>调查报告</div>
+<div class="icon" onclick="openWindow('sonar')" id="sonarIcon" style="display:none;">🌊<br>深海声呐</div>
 </div>
 
 <div id="dock" class="dock"></div>
@@ -118,10 +119,36 @@
   </div>
 </div>
 
+<!-- 声呐窗口 -->
+<div class="window" id="sonar">
+  <div class="windowTitleBar">
+    <div class="windowTitle"><span class="windowIcon">🌊</span><span>NEXUS 深海声呐</span></div>
+    <div class="windowControls">
+      <button class="windowControlBtn minimize" onclick="minimizeWindow('sonar')">—</button>
+      <button class="windowControlBtn close" onclick="closeWindow('sonar')">✕</button>
+    </div>
+  </div>
+  <div class="windowBody">
+    <p style="color:#788;">输入深度值（米）进行海底声呐扫描。声波反射数据将实时回传。</p>
+    <div class="searchbox">
+      <input id="depthInput" placeholder="输入深度（米），如：200" onkeydown="if(event.key==='Enter')scanDepth()">
+      <button onclick="scanDepth()">🔊 扫描</button>
+    </div>
+    <div id="sonarResult" style="margin-top:15px;">
+      <p style="color:#788;">请输入深度值开始扫描。建议范围：0-1500m</p>
+    </div>
+    <div id="sonarVisual" style="margin-top:10px;height:60px;background:#020507;border:1px solid #1d3a48;border-radius:4px;position:relative;overflow:hidden;">
+      <div id="sonarWave" style="position:absolute;bottom:0;left:0;right:0;height:2px;background:#36bddd;transition:height .3s;"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/wm.js"></script>
 <script src="js/data.js"></script>
 <script src="js/browser.js"></script>
 <script src="js/endings.js"></script>
 <script src="js/save.js"></script>
+<script src="js/sonar.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/main.js"></script>
 

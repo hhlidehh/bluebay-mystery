@@ -1,15 +1,6 @@
 
 
-.closeBtn{
-float:right;
-background:#7b2020;
-padding:6px 15px;
-font-size:14px;
-}
-
-.closeBtn:hover{
-background:#b03030;
-}
+/* 窗口控件（统一通过 .windowControlBtn.close / .windowControlBtn.minimize 使用） */
 
 *{
 box-sizing:border-box;
@@ -124,7 +115,7 @@ min-height:240px;
 }
 
 .window.activeWindow{
-	display:block;
+  box-shadow:0 0 24px rgba(88,220,255,.18),0 0 48px rgba(0,0,0,.5);
 }
 
 .windowTitleBar{
@@ -401,6 +392,40 @@ border-top:none;
 border-radius:0 0 8px 8px;
 padding:15px;
 min-height:200px;
+}
+
+.sonarWarning{color:#ff6b6b;}
+.sonarHint{color:#7ab5ff;}
+
+.deepCard{
+background:#07181f;
+border-left:3px solid #5ac8ff;
+padding:15px;
+margin:12px 0;
+}
+
+.deepCard span{color:#c1e8ff;}
+
+.deepUnlock{border-left:3px solid #55ff88;}
+
+.sonarDeepPage{
+background:#02101a;
+border:1px solid #0f2a42;
+padding:16px;
+border-radius:10px;
+margin-top:18px;
+}
+
+.sonarDeepPageHeader{
+font-size:16px;
+margin-bottom:10px;
+color:#7af9ff;
+}
+
+.deepPageHeader{
+font-size:18px;
+margin-bottom:12px;
+color:#88e0ff;
 }
 
 /* 搜索 */

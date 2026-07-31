@@ -40,10 +40,9 @@ function makeReport(type){
 <li>前馆长陈志远试图阻止，但被迫离职</li>
 </ul>
 <p>报告提交后，造船集团股价暴跌。DSLOP项目被叫停。</p>
-<p>你掌握了足够多的真相——但陈志远的草稿箱暗示，故事远未结束。</p>
 <br>
-<button onclick="alert('🎉 thxForPlaying！\\n\\n第二章正在开发中...')" style="font-size:16px;padding:14px 28px;background:#d94a4a;">▶ 进入第二章（开发中）</button>
-<p style="color:#788;font-size:12px;margin-top:8px;">Demo版 — 第二章即将推出</p>`;
+<button onclick="sendSonarEmail();unlockSonar();renderMail();" style="font-size:16px;padding:14px 28px;">📧 接收新邮件</button>
+<p style="color:#788;font-size:12px;margin-top:8px;">调查总部发来了新的消息...</p>`;
   }
   if(type==3){
     let hasRule=clues.includes("获得水族馆异常规则文件");
@@ -70,8 +69,8 @@ function makeReport(type){
 <p style="color:#d94a4a;">蓝湾的海面平静如镜。<br>但你知道——那下面有东西正在回望。</p>
 <h3>案件状态：真相确认。<br>但真相不是结束。</h3>
 <br>
-<button onclick="alert('🎉 thxForPlaying！\\n\\n第二章正在开发中...')" style="font-size:16px;padding:14px 28px;background:#d94a4a;">▶ 进入第二章（开发中）</button>
-<p style="color:#788;font-size:12px;margin-top:8px;">Demo版 — 第二章即将推出</p>`;
+<button onclick="sendSonarEmail();unlockSonar();renderMail();" style="font-size:16px;padding:14px 28px;">📧 接收新邮件</button>
+<p style="color:#788;font-size:12px;margin-top:8px;">调查总部发来了新的消息...</p>`;
     } else {
       result.innerHTML=`
 <h2>END 03：残缺拼图</h2>

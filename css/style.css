@@ -39,6 +39,7 @@ font-size:22px;
 /* 桌面 */
 #desktop{
 padding:30px;
+min-height:calc(100vh - 140px);
 }
 
 /* 软件图标 */
@@ -62,20 +63,130 @@ background:#164458;
 transform:translateY(-5px);
 }
 
+/* 桌面底部快捷栏 */
+.dock{
+position:fixed;
+bottom:16px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:10px;
+padding:10px 14px;
+background:rgba(6,16,24,.86);
+border:1px solid #2b5163;
+border-radius:16px;
+box-shadow:0 8px 24px rgba(0,0,0,.35);
+z-index:50;
+}
+
+.dock .dockItem{
+width:54px;
+height:54px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:24px;
+border-radius:12px;
+background:#103143;
+border:1px solid #2f6279;
+cursor:pointer;
+transition:.2s;
+position:relative;
+}
+
+.dock .dockItem:hover{
+background:#1a4a64;
+transform:translateY(-3px);
+}
+
+.dock .dockItem.active{
+outline:2px solid #58dcff;
+outline-offset:2px;
+}
+
 /* 窗口 */
 .window{
 display:none;
 position:absolute;
-top:80px;
-left:8%;
-width:84%;
+top:70px;
+left:7%;
+width:86%;
 height:78%;
 background:#091219;
 border:1px solid #28758b;
-border-radius:12px;
+border-radius:14px;
 box-shadow:0 0 30px #000;
-padding:20px;
+overflow:hidden;
+z-index:20;
+resize:both;
+min-width:320px;
+min-height:240px;
+}
+
+.window.activeWindow{
+	display:block;
+}
+
+.windowTitleBar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 12px;
+background:linear-gradient(90deg,#102533,#0b1820);
+border-bottom:1px solid #28505e;
+cursor:move;
+user-select:none;
+}
+
+.windowTitle{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:16px;
+color:#58dcff;
+font-weight:600;
+}
+
+.windowIcon{
+font-size:16px;
+}
+
+.windowControls{
+display:flex;
+gap:6px;
+}
+
+.windowControlBtn{
+width:28px;
+height:28px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+color:white;
+}
+
+.windowControlBtn.minimize{background:#3c6b2b;}
+.windowControlBtn.minimize:hover{background:#4c8a35;}
+.windowControlBtn.close{background:#7b2020;}
+.windowControlBtn.close:hover{background:#b03030;}
+
+.windowBody{
+padding:16px;
+height:calc(100% - 50px);
 overflow:auto;
+background:linear-gradient(180deg,#0a131a 0%,#071018 100%);
+}
+
+.windowResizeHandle{
+position:absolute;
+bottom:0;
+right:0;
+width:18px;
+height:18px;
+cursor:nwse-resize;
+background:linear-gradient(135deg, transparent 0%, transparent 50%, #58dcff 50%, #58dcff 100%);
+opacity:.8;
 }
 
 .title{

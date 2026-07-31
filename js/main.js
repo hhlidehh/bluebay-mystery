@@ -6,6 +6,8 @@ window.onload=function(){
   loadGame();
   initBrowser();
   renderMail();
+  initWindowInteractions();
+  updateDock();
 };
 
 document.addEventListener("keydown",function(e){

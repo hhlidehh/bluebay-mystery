@@ -12,6 +12,10 @@ let archiveUnlocked=false;
 let zonesUnlocked=false;
 let restrictedUnlocked=false;
 
+function navCard(id,title,desc,style=''){
+  return `<div class="card" onclick="navigatePage('${id}','hidden')" style="cursor:pointer;${style}"><b>${title}</b><br><span style="color:#5a8a9a;font-size:13px;">${desc}</span></div>`;
+}
+
 // 隐藏网页（只能通过页面内链接访问）
 let hiddenPages={
   "9号展缸登录":{
@@ -35,31 +39,21 @@ let hiddenPages={
     url:"internal://ray-bay-aquarium/admin/portal",
     title:"📂 内部档案系统 v2.1",
     content:`
-<h2>📂 Ray Bay Aquarium 内部档案系统</h2>
+<h2>📂 蓝湾水族馆内部档案系统</h2>
 <p style="color:#788;">最后登录：2012年6月15日 ｜ 登录用户：admin</p>
 
 <hr>
 
-<div class="card" onclick="navigatePage('人员名单','hidden')" style="cursor:pointer;">
-<b>📋 工作人员名单</b><br>
-<span style="color:#5a8a9a;font-size:13px;">在职人员及部门分配（2012年存档）</span>
-</div>
+${navCard('人员名单','📋 工作人员名单','在职人员及部门分配（2012年存档）')}
 
-<div class="card" onclick="navigatePage('分区详情登录','hidden')" style="cursor:pointer;">
-<b>🔒 各分区详细情况</b><br>
-<span style="color:#f0a030;font-size:13px;">⚠ 需要分区管理密码</span>
-</div>
+${navCard('分区详情登录','🔒 各分区详细情况','⚠ 需要分区管理密码','color:#f0a030;')}
 
-<div class="card" onclick="navigatePage('未开放档案登录','hidden')" style="cursor:pointer;">
-<b>🔒 未开放区域档案</b><br>
-<span style="color:#f0a030;font-size:13px;">⚠ 需要独立档案密码 ｜ 交互式检索系统</span>
-</div>
+${navCard('未开放档案登录','🔒 未开放区域档案','⚠ 需要独立档案密码 ｜ 交互式检索系统','color:#f0a030;')}
 
 <hr>
 
-<button onclick="addClue('进入水族馆内部档案系统','获得内部系统访问权限')">
-📌 保存证据
-</button>
+${evidenceButton('进入水族馆内部档案系统','获得内部系统访问权限')}
+
 `
   },
 
@@ -67,7 +61,7 @@ let hiddenPages={
     url:"internal://ray-bay-aquarium/admin/staff",
     title:"📋 工作人员名单",
     content:`
-<h2>📋 Ray Bay Aquarium 工作人员名单</h2>
+<h2>📋 蓝湾水族馆工作人员名单</h2>
 <p style="color:#788;">存档日期：2012年5月</p>
 
 <table style="width:100%;border-collapse:collapse;margin:15px 0;">
@@ -109,11 +103,7 @@ let hiddenPages={
 </tr>
 </table>
 
-
-
-<button onclick="addClue('获得水族馆工作人员名单','2012年 馆内人事档案')">
-📌 保存证据
-</button>
+${evidenceButton('获得水族馆工作人员名单','2012年 馆内人事档案')}
 `
   },
 
@@ -138,7 +128,7 @@ let hiddenPages={
     url:"internal://ray-bay-aquarium/admin/zones",
     title:"📊 各分区详细情况",
     content:`
-<h2>📊 Ray Bay Aquarium 分区详情</h2>
+<h2>📊 蓝湾水族馆 分区详情</h2>
 
 <div style="background:#0f1a22;padding:12px;margin:10px 0;border-left:3px solid #36bddd;">
 <b>A区 — 公开展示区</b>
@@ -163,9 +153,7 @@ let hiddenPages={
 注：关于未开放区域的详细档案，请使用独立检索系统查阅。
 </p>
 
-<button onclick="addClue('B区为未开放深海研究区存在9号展缸','2011年 B区地下层扩建')">
-📌 保存证据
-</button>
+${evidenceButton('B区为未开放深海研究区存在9号展缸','2011年 B区地下层扩建')}
 `
   },
 
@@ -233,9 +221,7 @@ let hiddenPages={
 
 <br>
 
-<button onclick="addClue('9号展缸没有官方生物记录','未知时间 水族馆异常档案')">
-📌 保存证据
-</button>
+${evidenceButton('9号展缸没有官方生物记录','未知时间 水族馆异常档案')}
 `
   },
 
@@ -259,9 +245,7 @@ let hiddenPages={
 <p>系统记录的登录凭据：<b>部门代码字母部分 + 出生年份</b></p>
 </div>
 
-<button onclick="addClue('获得馆长陈志远的邮箱密码线索','馆内档案记录显示密码为员工编号')">
-📌 保存证据
-</button>
+${evidenceButton('获得馆长陈志远的邮箱密码线索','馆内档案记录显示密码为员工编号')}
 `
   }
 };
@@ -282,7 +266,7 @@ let deepPages={
 </ul>
 <p>当时的馆长陈志远建议停止挖掘。<b>被驳回。</b></p>
 <p>驳回理由：蓝湾造船集团已支付B区扩建费用。</p>
-<button onclick="addClue('建馆勘探在B区发现远古凿痕与异常水声')">📌 保存证据</button>
+${evidenceButton('建馆勘探在B区发现远古凿痕与异常水声')}
 `
   },
   "DSLOP项目报告_深层":{
@@ -298,7 +282,7 @@ let deepPages={
 <li>2011年2月：声呐阵列收到了<b>未经发射的独立信号</b></li>
 </ul>
 <p style="color:#d94a4a;">项目内部结论："存在一个位于空腔底部的声源。该声源具有主动响应能力。"</p>
-<button onclick="addClue('DSLOP声呐数据证明9号展缸存在物具有主动声学响应')">📌 保存证据</button>
+${evidenceButton('DSLOP声呐数据证明9号展缸存在物具有主动声学响应')}
 `
   },
   "分区详情_深层":{
@@ -316,7 +300,7 @@ let deepPages={
 </ul>
 <p>造船集团在2011年扩建时发现了空腔的完整规模。<b>他们选择保密。</b></p>
 <p style="color:#f0a030;">王海生编号BZ-2008，负责B区扩建。他的日志在2011年6月后中断。</p>
-<button onclick="addClue('B区地下空腔延伸超过1500米 造船集团隐瞒了完整规模')">📌 保存证据</button>
+${evidenceButton('B区地下空腔延伸超过1500米 造船集团隐瞒了完整规模')}
 `
   },
   "9号展缸_深层":{
@@ -334,7 +318,7 @@ let deepPages={
 <p>"它不是被困在空腔里。"</p>
 <p><b>"它在等待。</b>"</p>
 </blockquote>
-<button onclick="addClue('9号展缸存在物的第一次接触记录 它不是在回应——是在等待')">📌 保存证据</button>
+${evidenceButton('9号展缸存在物的第一次接触记录 它不是在回应——是在等待')}
 `
   },
   "未开放档案_深层":{
@@ -349,7 +333,7 @@ let deepPages={
 <blockquote style="border-left:3px solid #d94a4a;padding-left:10px;">"它开始使用我们的名字了。"</blockquote>
 <p>2012年6月15日 08:00 — 闭馆申请提交。</p>
 <p>2012年6月16日 — 蓝湾新闻网刊登闭馆报道。造船集团拒绝评论。</p>
-<button onclick="addClue('闭馆前B区研究部最后通讯:它开始使用我们的名字')">📌 保存证据</button>
+${evidenceButton('闭馆前B区研究部最后通讯:它开始使用我们的名字')}
 `
   }
 };
@@ -410,63 +394,43 @@ function searchArchive(){
 
   // 9号展缸
   if(key.includes("9号")||key.includes("九号")||key.includes("TANK9")||key.includes("tank9")){
-    result.innerHTML=`
-<div class="card" style="cursor:pointer;border-left:3px solid #d94a4a;" onclick="navigatePage('9号展缸','hidden')">
-<b>⚠ TANK-09 / 9号展缸</b><br>
-<span style="color:#d94a4a;">档案编号：TANK-09 ｜ 状态：<b>无生物登记记录</b></span><br>
-<span style="color:#788;">创建日期：未知 ｜ 最后修改：无</span>
-<p style="color:#f0a030;margin-top:8px;">点击查看完整档案 →</p>
-</div>`; return;
+    result.innerHTML = navCard('9号展缸','⚠ TANK-09 / 9号展缸','档案编号：TANK-09 ｜ 状态：<b>无生物登记记录</b><br><span style="color:#788;">创建日期：未知 ｜ 最后修改：无</span><p style="color:#f0a030;margin-top:8px;">点击查看完整档案 →</p>','cursor:pointer;border-left:3px solid #d94a4a;');
+    return;
   }
 
   // 5-8号展缸
   if(key.includes("5号")||key.includes("五号")){
-    result.innerHTML=`<div class="card" style="cursor:default;"><b>🐠 TANK-05 / 5号展缸</b><br><span style="color:#788;">A区公开展区。热带珊瑚礁生态展缸。</span><br><span style="color:#788;">状态：2012年关闭后生物移交市立海洋馆。</span></div>`; return;
+    result.innerHTML=navCard('','🐠 TANK-05 / 5号展缸','A区公开展区。热带珊瑚礁生态展缸。<br><span style="color:#788;">状态：2012年关闭后生物移交市立海洋馆。</span>','cursor:default;'); return;
   }
   if(key.includes("6号")||key.includes("六号")){
-    result.innerHTML=`<div class="card" style="cursor:default;"><b>🐡 TANK-06 / 6号展缸</b><br><span style="color:#788;">A区公开展区。河豚与海马专题展缸。</span><br><span style="color:#788;">状态：2012年关闭后生物移交市立海洋馆。</span></div>`; return;
+    result.innerHTML=navCard('','🐡 TANK-06 / 6号展缸','A区公开展区。河豚与海马专题展缸。<br><span style="color:#788;">状态：2012年关闭后生物移交市立海洋馆。</span>','cursor:default;'); return;
   }
   if(key.includes("7号")||key.includes("七号")){
-    result.innerHTML=`<div class="card" style="cursor:default;border-left:3px solid #f0a030;"><b>🦑 TANK-07 / 7号展缸</b><br><span style="color:#788;">B区研究展区。深海发光生物展示。</span><br><span style="color:#f0a030;">⚠ 2011年起停止对公众开放，转为内部研究用途。</span></div>`; return;
+    result.innerHTML=navCard('','🦑 TANK-07 / 7号展缸','B区研究展区。深海发光生物展示。<br><span style="color:#f0a030;">⚠ 2011年起停止对公众开放，转为内部研究用途。</span>','cursor:default;border-left:3px solid #f0a030;'); return;
   }
   if(key.includes("8号")||key.includes("八号")){
-    result.innerHTML=`<div class="card" style="cursor:default;border-left:3px solid #f0a030;"><b>🦈 TANK-08 / 8号展缸</b><br><span style="color:#788;">B区研究展区。原计划展示小型鲨鱼及鳐鱼。</span><br><span style="color:#f0a030;">⚠ 2011年B区扩建后，该展缸被改造。用途：<b>未记录</b>。</span></div>`; return;
+    result.innerHTML=navCard('','🦈 TANK-08 / 8号展缸','B区研究展区。原计划展示小型鲨鱼及鳐鱼。<br><span style="color:#f0a030;">⚠ 2011年B区扩建后，该展缸被改造。用途：<b>未记录</b>。</span>','cursor:default;border-left:3px solid #f0a030;'); return;
   }
 
   // 展缸通用索引
   if(key.includes("展缸")){
-    result.innerHTML=`
-<div class="card" style="cursor:default;"><b>📋 展缸索引</b><br>
-<span style="color:#788;">#1-#4：A区公开展区</span><br>
-<span style="color:#788;">#5-#6：A区公开展区</span><br>
-<span style="color:#f0a030;">#7-#8：B区研究展区</span><br>
-<span style="color:#d94a4a;">#9：无登记记录</span></div>`; return;
+    result.innerHTML=navCard('','📋 展缸索引','#1-#4：A区公开展区<br>#5-#6：A区公开展区<br><span style="color:#f0a030;">#7-#8：B区研究展区</span><br><span style="color:#d94a4a;">#9：无登记记录</span>','cursor:default;'); return;
   }
 
   // 人员检索
   if(key.includes("王海生")||key.includes("海生")){
-    result.innerHTML=`<div class="card" style="cursor:default;"><b>📄 王海生 工作日志</b><br><span style="color:#788;">2011年3月：B区地下扩建启动。2011年6月：完工。</span><br><span style="color:#f0a030;">编号：BZ-2008</span></div>`; return;
+    result.innerHTML=navCard('','📄 王海生 工作日志','2011年3月：B区地下扩建启动。2011年6月：完工。<br><span style="color:#f0a030;">编号：BZ-2008</span>','cursor:default;'); return;
   }
   if(key.includes("周建国")||key.includes("建国")){
-    result.innerHTML=`<div class="card" style="cursor:default;"><b>📄 周建国 工作日志</b><br><span style="color:#788;">2011年7月：接手B区档案管理。所有未开放区域档案独立加密。</span><br><span style="color:#f0a030;">编号：BZ-2011</span></div>`; return;
+    result.innerHTML=navCard('','📄 周建国 工作日志','2011年7月：接手B区档案管理。所有未开放区域档案独立加密。<br><span style="color:#f0a030;">编号：BZ-2011</span>','cursor:default;'); return;
   }
   if(key.includes("陈志远")||key.includes("志远")){
-    result.innerHTML=`
-<div class="card" style="cursor:pointer;border-left:3px solid #f0a030;" onclick="navigatePage('陈志远档案','hidden')">
-<b>📄 员工档案：陈志远</b><br>
-<span style="color:#788;">编号：ADM-001 ｜ 职务：馆长 ｜ 状态：2012年离职</span><br>
-<span style="color:#f0a030;margin-top:8px;">点击查看员工档案 →</span>
-</div>`; return;
+    result.innerHTML=navCard('陈志远档案','📄 员工档案：陈志远','编号：ADM-001 ｜ 职务：馆长 ｜ 状态：2012年离职<br><span style="color:#f0a030;margin-top:8px;">点击查看员工档案 →</span>','cursor:pointer;border-left:3px solid #f0a030;'); return;
   }
 
   // 深海/扩建等
   if(key.includes("深海")||key.includes("扩建")||key.includes("B区")||key.includes("地下")){
-    result.innerHTML=`
-<div class="card" style="cursor:default;">
-<b>📄 B区扩建工程记录</b><br>
-<span style="color:#788;">2011年3月 — B区地下层扩建工程完工。</span><br>
-<span style="color:#788;">负责人：王海生（BZ-2008）</span>
-</div>`; return;
+    result.innerHTML=navCard('','📄 B区扩建工程记录','2011年3月 — B区地下层扩建工程完工。<br><span style="color:#788;">负责人：王海生（BZ-2008）</span>','cursor:default;'); return;
   }
 
   result.innerHTML="<p style='color:#788;'>该关键词暂无相关结果。</p>";

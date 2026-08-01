@@ -4,6 +4,19 @@ let clues=[];
 // 时间线
 let timeline=[];
 
+function escapeHtml(str){
+  return String(str||"")
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function evidenceButton(clue, time, label="📌 保存证据"){
+  return `<button class="evidenceBtn" data-clue="${escapeHtml(clue)}" data-time="${escapeHtml(time)}" onclick="addClue(this.dataset.clue, this.dataset.time, this)">${label}</button>`;
+}
+
 // ==========================================
 // 双账户邮箱系统
 // ==========================================
@@ -165,9 +178,7 @@ let accounts={
 
 <br><br>
 
-<button onclick="addClue('获得水族馆异常规则文件','7月13日 李清禾进入蓝湾水族馆')">
-📌 保存证据
-</button>
+${evidenceButton('获得水族馆异常规则文件','7月13日 李清禾进入蓝湾水族馆')}
 `
       },
       {
@@ -192,9 +203,7 @@ let accounts={
 
 <br><br>
 
-<button onclick="addClue('未知者知道9号展缸存在','7月14日 收到匿名警告')">
-📌 保存证据
-</button>
+${evidenceButton('未知者知道9号展缸存在','7月14日 收到匿名警告')}
 `
       },
       {
@@ -227,9 +236,7 @@ let accounts={
 
 <br><br>
 
-<button onclick="addClue('李清禾发现地下异常区域','7月13日 最后调查记录')">
-📌 保存证据
-</button>
+${evidenceButton('李清禾发现地下异常区域','7月13日 最后调查记录')}
 `
       }
     ]
@@ -297,9 +304,7 @@ let accounts={
 
 <p style="color:#788;font-size:12px;">—— 陈志远</p>
 
-<button onclick="addClue('陈志远应DSLOP重启邀请重返计划 并警告B区危险','2025年5月 DSLOP计划重启 陈志远受邀返回')">
-📌 保存证据
-</button>
+${evidenceButton('陈志远应DSLOP重启邀请重返计划 并警告B区危险','2025年5月 DSLOP计划重启 陈志远受邀返回')}
 `
       },
       {
@@ -346,9 +351,7 @@ let accounts={
 &gt; B区地下扩建工程已经完成...
 </blockquote>
 
-<button onclick="addClue('蓝湾造船集团参与水族馆地下建设并试图控制B区','2011年3月 造船集团要求控制B区')">
-📌 保存证据
-</button>
+${evidenceButton('蓝湾造船集团参与水族馆地下建设并试图控制B区','2011年3月 造船集团要求控制B区')}
 `
       },
       {
@@ -414,9 +417,7 @@ let accounts={
 <p><b>建议不要继续询问。</b></p>
 <p style="color:#788;font-size:12px;">—— B区研究部</p>
 
-<button onclick="addClue('9号展缸并非水族馆登记生物','B区研究部承认9号展缸中不是馆内生物')">
-📌 保存证据
-</button>
+${evidenceButton('9号展缸并非水族馆登记生物','B区研究部承认9号展缸中不是馆内生物')}
 `
       },
       {
@@ -441,9 +442,7 @@ let accounts={
 <p><b>它只是被困在那里。</b></p>
 </blockquote>
 
-<button onclick="addClue('陈志远申请闭馆并警告地下区域危险','2012年6月 陈志远试图关闭水族馆')">
-📌 保存证据
-</button>
+${evidenceButton('陈志远申请闭馆并警告地下区域危险','2012年6月 陈志远试图关闭水族馆')}
 `
       },
       {
@@ -467,9 +466,7 @@ let accounts={
 
 <p>这是最后通知。</p>
 
-<button onclick="addClue('9号展缸具有未知响应能力并能模仿人类声音','陈志远警告9号展缸出现模仿声音行为')">
-📌 保存证据
-</button>
+${evidenceButton('9号展缸具有未知响应能力并能模仿人类声音','陈志远警告9号展缸出现模仿声音行为')}
 `
       },
       {
@@ -492,9 +489,7 @@ let accounts={
 
 <p style="color:#d94a4a;"><b>它一直在观察我们。</b></p>
 
-<button onclick="addClue('水族馆异常事件早于李清禾调查 陈志远暗示存在物具有观察能力','陈志远留下的最终警告')">
-📌 保存证据
-</button>
+${evidenceButton('水族馆异常事件早于李清禾调查 陈志远暗示存在物具有观察能力','陈志远留下的最终警告')}
 `
       }
     ]
@@ -696,9 +691,7 @@ let websites={
 </span>
 </p>
 
-<button onclick="addClue('官方记录显示水族馆2012年关闭','2012年 蓝湾水族馆停止运营')">
-📌 保存网页证据
-</button>
+${evidenceButton('官方记录显示水族馆2012年关闭','2012年 蓝湾水族馆停止运营')}
 `
   },
 
@@ -745,9 +738,7 @@ let websites={
 
 <br>
 
-<button onclick="addClue('李清禾最后进入废弃水族馆','2025年7月13日 李清禾失踪')">
-📌 保存网页证据
-</button>
+${evidenceButton('李清禾最后进入废弃水族馆','2025年7月13日 李清禾失踪')}
 `
   },
 
@@ -779,9 +770,7 @@ let websites={
 
 <br>
 
-<button onclick="addClue('造船集团参与深海研究项目','2020年 深海工程启动')">
-📌 保存网页证据
-</button>
+${evidenceButton('造船集团参与深海研究项目','2020年 深海工程启动')}
 `
   },
 
@@ -811,9 +800,7 @@ let websites={
 
 <br>
 
-<button onclick="addClue('废弃水族馆关闭后仍然出现灯光','2012年后 水族馆异常现象')">
-📌 保存网页证据
-</button>
+${evidenceButton('废弃水族馆关闭后仍然出现灯光','2012年后 水族馆异常现象')}
 `
   },
 
@@ -849,9 +836,7 @@ let websites={
 
 <p style="color:#788;font-size:12px;">该邮箱为海洋馆内部工作邮箱，2012年后停用。</p>
 
-<button onclick="addClue('获得馆长陈志远的邮箱地址','陈志远曾任蓝湾海洋馆馆长')">
-📌 保存证据
-</button>
+${evidenceButton('获得馆长陈志远的邮箱地址','陈志远曾任蓝湾海洋馆馆长')}
 `
   },
 
@@ -886,9 +871,7 @@ let websites={
 
 <p style="color:#788;font-size:12px;">（本文于2012年6月16日刊登。该建筑至今未重新开放。）</p>
 
-<button onclick="addClue('2012年新闻报道暗示水族馆关闭另有隐情','2012年6月 蓝湾新闻网报道闭馆内幕')">
-📌 保存证据
-</button>
+${evidenceButton('2012年新闻报道暗示水族馆关闭另有隐情','2012年6月 蓝湾新闻网报道闭馆内幕')}
 `
   },
 
@@ -940,9 +923,7 @@ let websites={
 <p>2025年5月，蓝湾海洋研究中心宣布重启DSLOP项目。观测站点仍设在原蓝湾海洋馆B区旧址。</p>
 <p>前馆长<b>陈志远</b>被邀请作为顾问重返项目。</p>
 
-<button onclick="addClue('DSLOP项目2010年启动 2012年暂停 2025年重启 陈志远与李清禾受邀','2025年 DSLOP重启 陈志远被邀请返回')">
-📌 保存证据
-</button>
+${evidenceButton('DSLOP项目2010年启动 2012年暂停 2025年重启 陈志远与李清禾受邀','2025年 DSLOP重启 陈志远被邀请返回')}
 `
   },
 
@@ -969,9 +950,7 @@ let websites={
 
 <p style="color:#788;font-size:12px;">注：2012年蓝湾海洋馆退出。2025年DSLOP重启后重新加入。</p>
 
-<button onclick="addClue('DSLOP项目涉及政府、企业、学术多方合作','2010年 蓝湾市多机构参与深海研究')">
-📌 保存证据
-</button>
+${evidenceButton('DSLOP项目涉及政府、企业、学术多方合作','2010年 蓝湾市多机构参与深海研究')}
 `
   },
 
@@ -1001,9 +980,7 @@ let websites={
 
 <p style="color:#f0a030;font-size:12px;">注：2012年暂停。2025年5月宣布重启。</p>
 
-<button onclick="addClue('DSLOP项目公开宣称研究天然深海空腔中的未知生物','2010年 DSLOP项目正式启动')">
-📌 保存证据
-</button>
+${evidenceButton('DSLOP项目公开宣称研究天然深海空腔中的未知生物','2010年 DSLOP项目正式启动')}
 `
   }
 };

@@ -774,6 +774,41 @@ ${evidenceButton('造船集团参与深海研究项目','2020年 深海工程启
 `
   },
 
+  "蓝湾建筑设计研究院":{
+    url:"https://www.bay-archdesign.cn",
+    title:"蓝湾建筑设计研究院 — 官方网站",
+    keywords:["蓝湾建筑设计研究院","建筑设计","设计院","研究院","建筑","建筑师","城市规划"],
+    content:`
+<h2>🏛 蓝湾建筑设计研究院</h2>
+<h3>Blue Bay Architecture &amp; Design Institute</h3>
+
+<p><b>成立时间：</b>1993年</p>
+<p><b>机构性质：</b>蓝湾市市级建筑设计研究机构，隶属市建设规划局。</p>
+
+<hr>
+
+<h3>主要业务</h3>
+<ul>
+<li>公共建筑方案与施工图设计</li>
+<li>城市规划与区域规划</li>
+<li>结构工程与地基勘察咨询</li>
+</ul>
+
+<hr>
+
+<h3>代表作品</h3>
+<ul>
+<li>蓝湾海洋馆（Ray Bay Aquarium）— 建筑设计 · 2008年</li>
+<li>蓝湾市图书馆 — 建筑设计 · 2010年</li>
+<li>蓝湾会展中心 — 结构设计 · 2014年</li>
+</ul>
+
+<hr>
+
+<p style="color:#788;font-size:12px;">联系地址：蓝湾市滨海大道 88 号 ｜ 联系电话：0571-XXXXXXX</p>
+`
+  },
+
   "蓝湾论坛":{
     url:"https://bbs.bay-city.com/abandoned",
     title:"蓝湾居民论坛",
@@ -872,6 +907,41 @@ ${evidenceButton('获得馆长陈志远的邮箱地址','陈志远曾任蓝湾�
 <p style="color:#788;font-size:12px;">（本文于2012年6月16日刊登。该建筑至今未重新开放。）</p>
 
 ${evidenceButton('2012年新闻报道暗示水族馆关闭另有隐情','2012年6月 蓝湾新闻网报道闭馆内幕')}
+`
+  },
+
+  "蓝湾海洋研究中心":{
+    url:"https://research.bay-marine.org",
+    title:"蓝湾海洋研究中心 — 官方网站",
+    keywords:["蓝湾海洋研究中心","海洋研究中心","海洋研究","海洋科研","海洋科学","研究中心"],
+    content:`
+<h2>🌊 蓝湾海洋研究中心</h2>
+<h3>Blue Bay Marine Research Center</h3>
+
+<p><b>成立时间：</b>1995年</p>
+<p><b>机构性质：</b>蓝湾市海洋科学与技术研究机构。</p>
+
+<hr>
+
+<h3>主要研究方向</h3>
+<ul>
+<li>近海生态系统监测</li>
+<li>深海生物与地质研究</li>
+<li>海洋声学与观测技术</li>
+</ul>
+
+<hr>
+
+<h3>合作项目</h3>
+<ul>
+<li>深海生命观察计划（DSLOP）— 项目牵头单位</li>
+<li>蓝湾海洋馆 — 观测站点合作</li>
+<li>蓝湾造船集团 — 深海工程技术合作</li>
+</ul>
+
+<hr>
+
+<p style="color:#788;font-size:12px;">联系地址：蓝湾市滨海大道 55 号 ｜ 官网深海生命计划档案：<span style="cursor:pointer;text-decoration:underline;color:#5a8a9a;" onclick="navigatePage('深海生命计划','web')">深海生命计划（DSLOP）</span></p>
 `
   },
 
@@ -1152,6 +1222,7 @@ function navigatePage(id,source,shouldPush=true){
     page=hiddenPages[id];
     url=page.url;
     body.innerHTML=page.content;
+    if(id==="9号展缸") applyTank9Chapter2(body);
     hideSavedButtons();
     maybePlayWave(id,source);
   } else {

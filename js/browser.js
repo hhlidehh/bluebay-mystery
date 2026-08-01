@@ -178,7 +178,7 @@ ${evidenceButton('B区为未开放深海研究区存在9号展缸','2011年 B区
     url:"internal://ray-bay-aquarium/admin/restricted",
     title:"🔍 未开放区域检索系统",
     content:`
-<h2>🔍 未开放区域档案检索</h2>
+<h2>🔍 未开放区域档案检索 最后数据更改于:2012</h2>
 <p style="color:#788;">输入关键词检索档案库...</p>
 
 <div class="searchbox">
@@ -288,19 +288,12 @@ ${evidenceButton('DSLOP声呐数据证明9号展缸存在物具有主动声学�
   "分区详情_深层":{
     title:"📊 B区 — 完整地下测绘（深层）",
     content:`
-<h2>🔓 深层档案：B区地下空腔完整测绘</h2>
+<h2>🔓 深层档案：B区地下一层完整图纸</h2>
 <p style="color:#788;">分类：工程图纸 | 来源：声呐解锁</p>
-<hr>
-<p>以下为<b>被造船集团从公开记录中删除</b>的B区地下结构图：</p>
-<ul>
-<li>地表：水族馆B区（展缸5-8）</li>
-<li>地下-1层：2011年扩建区（王海生负责）</li>
-<li>地下-2层至-5层：<b>未被记录的天然空腔网络</b></li>
-<li>空腔总深度：<b>远超1500m</b></li>
-</ul>
-<p>造船集团在2011年扩建时发现了空腔的完整规模。<b>他们选择保密。</b></p>
+
+<img src="assets/raybay_barea_blueprint.png" alt="B区地下结构测绘图" style="max-width:100%;height:auto;border:1px solid #1d3a48;border-radius:4px;margin:10px 0;">
+<p style="color:#788;font-size:12px;">图：B区地下结构测绘图（2011年扩建工程存档扫描件）</p>
 <p style="color:#f0a030;">王海生编号BZ-2008，负责B区扩建。他的日志在2011年6月后中断。</p>
-${evidenceButton('B区地下空腔延伸超过1500米 造船集团隐瞒了完整规模')}
 `
   },
   "9号展缸_深层":{
@@ -434,4 +427,13 @@ function searchArchive(){
   }
 
   result.innerHTML="<p style='color:#788;'>该关键词暂无相关结果。</p>";
+}
+
+// 第二章（解锁声呐后）：9号展缸页面中所有可见的"9"变为"999"
+function applyTank9Chapter2(root){
+  if(!sonarUnlocked) return;
+  let walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null);
+  let nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n=>{ n.nodeValue=n.nodeValue.replace(/9/g,"999"); });
 }
